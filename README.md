@@ -1,6 +1,6 @@
 # londa
 
-> A Vue.js project hhhhhhhhhhh
+> A Vue.js project
 
 ## Build Setup
 
