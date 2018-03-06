@@ -28,6 +28,7 @@
               <el-date-picker
                 v-model="formInline.value6"
                 type="daterange"
+                value-format="timestamp"
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期" size="mini" style="width:260px;" >
@@ -40,7 +41,7 @@
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" size="mini">查询</el-button>
+              <el-button type="primary" size="mini" @click="fddd" >查询</el-button>
             </el-form-item>
           </el-form>
         </el-col>
@@ -117,6 +118,7 @@
               <el-date-picker
                 v-model="formInline.value6"
                 type="daterange"
+                value-format="timestamp"
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期" size="mini" style="width:260px;" >
@@ -129,7 +131,7 @@
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" size="mini">查询</el-button>
+              <el-button type="primary" size="mini" @click="fddd" >查询</el-button>
             </el-form-item>
           </el-form>
         </el-col>
@@ -201,16 +203,28 @@
          <el-form-item label="联系人：" :label-width="formLabelWidth">
           <el-input v-model="userform.name" auto-complete="off" class="widthLabel" placeholder="请输入联系人" ></el-input>
         </el-form-item>
-         <el-form-item label="身份证号：" :label-width="formLabelWidth">
+        <el-form-item label="身份证号：" :label-width="formLabelWidth">
           <el-input v-model="userform.name" auto-complete="off" class="widthLabel" placeholder="请输入身份证号" ></el-input>
         </el-form-item>
-         <el-form-item label="公司名称：" :label-width="formLabelWidth">
+        <el-form-item label="公司名称：" :label-width="formLabelWidth">
           <el-input v-model="userform.name" auto-complete="off" class="widthLabel" placeholder="请输入公司名称" ></el-input>
+        </el-form-item>
+        <el-form-item label="提成方式：" :label-width="formLabelWidth" >
+          <el-radio-group v-model="userform.resource" @change="changeRadioValue" >
+            <el-radio label="1"  >平台提成</el-radio>
+            <el-radio label="2"  >个人提成</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="提成比例：" :label-width="formLabelWidth" v-show="isShow" >
+           <el-input v-model="userform.name" auto-complete="off" class="widthLabel" placeholder="请输入提成比例" ></el-input>
+        </el-form-item>
+        <el-form-item label="账户启用：" :label-width="formLabelWidth" >
+           <el-switch v-model="userform.isOpen" active-color="#13ce66" inactive-color="#909399"></el-switch>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+        <el-button type="primary" @click="fddd">确 定</el-button>
       </div>
     </el-dialog>
 
@@ -341,7 +355,9 @@ export default {
       userform:{
         name:'',
         region:'',
-        type:[]
+        type:[],
+        resource:'1',
+        isOpen:false
       },
       vendorUserform:{
         phoneNumber:'',
@@ -372,12 +388,13 @@ export default {
       dialogVendorVisible:false,
       checked: false,
       loading: false,
-      activeName2: 'first'
+      activeName2: 'first',
+      isShow:false
     }
   },
   methods: {
     handleClick(tab, event) {
-      console.log(tab, event);
+      // console.log(tab, event);
     },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
@@ -423,6 +440,18 @@ export default {
       //    _this.$refs.vendorUserform.resetFields();
       // });
      
+    },
+    changeRadioValue(val){
+      console.log(val);
+      console.log('dd');
+      if(this.userform.resource==2){
+        this.isShow = true;
+      }else{
+        this.isShow = false;
+      }
+    },
+    fddd(){
+      console.log(this.userform);
     }
   }
 }

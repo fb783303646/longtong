@@ -1,28 +1,5 @@
 <template>
   <div class="page-products">
-    <!-- <el-row>
-        <el-button type="primary" >全部商品(10000)</el-button>
-        <el-button plain>已上架(1000)</el-button>
-        <el-button plain>未上架(1000)</el-button>
-        <el-button plain>待审核(1000)</el-button>
-        <el-button plain>未通过(1000)</el-button>
-      </el-row> -->
-    <!-- <el-row class="header-row">
-        <el-form :inline="true" :model="formInline" class="demo-form-inline">
-          <el-form-item label="输入搜索">
-            <el-input v-model="formInline.user" placeholder="商品名称/商品货号"></el-input>
-          </el-form-item>
-          <el-form-item label="供货地区">
-            <el-select v-model="formInline.region" placeholder="请选择商品分类">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary">查询</el-button>
-          </el-form-item>
-        </el-form>
-      </el-row> -->
 
     <el-tabs v-model="activeName2" class="addClass" type="card" @tab-click="handleClick">
       <el-tab-pane label="全部商品(10000)" name="first"></el-tab-pane>
@@ -46,19 +23,18 @@
           </el-dropdown>
 
         </el-col>
-        <el-col :span="15">
-          <el-form :inline="true" :model="formInline" class="demo-form-inline">
+        <el-col :span="15"> 
+          <el-form :inline="true"  class="demo-form-inline">
             <el-form-item>
-              <el-input v-model="formInline.user" size="mini" placeholder="商品名称/商品货号"></el-input>
+              <el-input v-model="searchName" size="mini" placeholder="商品名称/品牌"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-select v-model="formInline.region" size="mini" placeholder="请选择商品分类">
-                <el-option label="区域一" value="shanghai"></el-option>
-                <el-option label="区域二" value="beijing"></el-option>
+              <el-select v-model="region" size="mini" placeholder="请选择供货地区">
+                <el-option v-for="item in regionList" :key="item.name" :label="item.name" :value="item.id"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" size="mini">查询</el-button>
+              <el-button type="primary" size="mini" @click="onSearch" >查询</el-button>
             </el-form-item>
           </el-form>
         </el-col>
@@ -67,30 +43,26 @@
           <el-button size="small" type="primary">批量导入</el-button>
         </el-col>
       </el-row>
-      <el-table ref="multipleTable" border :data="tableData" v-loading="loading" @selection-change="handleSelectionChange" tooltip-effect="dark" style="width: 100%">
+      <el-table ref="multipleTable" border :data="tableData"  v-loading="loading" @selection-change="handleSelectionChange" tooltip-effect="dark" style="width: 100%">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column label="商品编号" width="120">
-          <template slot-scope="scope">{{ scope.row.date }}</template>
-        </el-table-column>
-        <el-table-column prop="name" label="商品名称" width="120">
-        </el-table-column>
+        <el-table-column label="商品编号" prop="sn"  width="120"></el-table-column>
+        <el-table-column prop="name" label="商品名称" width="120"></el-table-column>
         <el-table-column label="价格" show-overflow-tooltip>
           <template slot-scope="scope">
-            <p class="no-magtop">采购价:￥{{ scope.row.pice}}</p>
-            <p class="no-magtop">内部定价:￥{{ scope.row.pice}}</p>
-            <p class="no-magtop">分销价:￥{{ scope.row.pice}}</p>
+            <p class="no-magtop">采购价:￥{{ scope.row.purchasingPrice}}</p>
+            <p class="no-magtop">内部定价:￥{{ scope.row.internalPrice}}</p>
+            <p class="no-magtop">分销价:￥{{ scope.row.salePrice}}</p>
           </template>
         </el-table-column>
-        <el-table-column prop="areas" label="供货地区" show-overflow-tooltip>
+        <el-table-column prop="saleRegions" label="供货地区" show-overflow-tooltip>
           <template slot-scope="scope">
-            <p class="no-magtop" v-for="item in scope.row.areas">{{ item }}</p>
+            <p class="no-magtop" v-for="item in scope.row.saleRegions">{{ item }}</p>
           </template>
         </el-table-column>
         <el-table-column prop="inventory" label="库存" show-overflow-tooltip>
           <template slot-scope="scope">{{ scope.row.inventory }}吨</template>
         </el-table-column>
-        <el-table-column prop="sales" label="销量" show-overflow-tooltip>
-        </el-table-column>
+        <el-table-column prop="productNum" label="销量" show-overflow-tooltip></el-table-column>
         <el-table-column prop="address" label="审核状态" show-overflow-tooltip>
           <template slot-scope="scope">
             <span v-if="scope.row.isApproved">已审核</span>
@@ -120,9 +92,8 @@
         </el-table-column>
       </el-table>
       <el-row class="page-box">
-
         <el-col :span="24" class="page-nation">
-          <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="100" background layout="total, sizes, prev, pager, next, jumper" :total=total>
+          <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[1, 2, 3, 4]" :page-size="pageSize" background layout="total, sizes, prev, pager, next, jumper" :total=total>
           </el-pagination>
         </el-col>
       </el-row>
@@ -139,79 +110,18 @@
 </template>
 
 <script>
+import http from '../../api/http'
+import apiurl from '../../api/apiurl'
 export default {
   data() {
     return {
-      tableData: [{
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        pice: 111,
-        inventory: 20,
-        areas: ['华东', '华南'],
-        sales: 1000,
-        isApproved: false
-      }, {
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        pice: 33,
-        inventory: 202,
-        areas: ['华东', '华南'],
-        sales: 1400,
-        isApproved: true
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        pice: 450,
-        inventory: 2,
-        areas: ['华东'],
-        sales: 1000,
-        isApproved: false
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        pice: 655,
-        inventory: 20,
-        areas: [],
-        sales: 1000,
-        isApproved: false
-      }, {
-        date: '2016-05-08',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        pice: 789,
-        inventory: 204,
-        areas: ['华东', '华南'],
-        sales: 1000,
-        isApproved: false
-      }, {
-        date: '2016-05-06',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        pice: 345,
-        inventory: 220,
-        areas: ['华东', '华南'],
-        sales: 1000,
-        isApproved: false
-      }, {
-        date: '2016-05-07',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        pice: 1111,
-        inventory: 20,
-        areas: ['华东', '华南'],
-        sales: 1300,
-        isApproved: false
-      }],
+      tableData: [],
       multipleSelection: [],
-      formInline: {
-        user: '',
-        region: ''
-      },
+      searchName:'',
+      region:'',
+      regionList:[],
       currentPage: 1,
+      pageSize:1,
       total: 40,
       dialogTableVisible: false,
       checked: false,
@@ -219,15 +129,58 @@ export default {
       activeName2: 'first'
     }
   },
+  created () { 
+    this.getDataList();
+    this.getReginData();
+  },
   methods: {
-    handleClick(tab, event) {
-      console.log(tab, event);
+    getReginData () {
+      http.get(apiurl.regionUrl).then((res)=>{
+      if(res.code == 0){
+          this.regionList = res.data.records
+        }else{
+          this.$message.error(res.messaage);
+        }
+      });
+    },
+    getDataList (res) {
+      let params = {
+        pageNo: this.currentPage,
+        pageSize: this.pageSize,
+      }
+      let data = res || {};
+      let option = Object.assign(data,params);
+      http.get(apiurl.productUrl, option).then((res)=>{
+        this.loading = true;
+        if(res.code == 0){
+          this.loading = false;
+          this.total = res.data.paging.total;
+          this.tableData = res.data.records
+        }else{
+          this.$message.error(res.messaage);
+        }
+      });
+    },
+    onSearch () {
+      let params = {
+        pageNo: 1,
+        name:this.searchName,
+        regionId:this.region
+      }
+      this.getDataList(params);
     },
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
+      console.log('dd');
+      this.pageSize = val;
+      this.currentPage = 1;
+      this.getDataList();
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+      this.currentPage = val;
+      this.getDataList();
+    },
+    handleClick(tab, event) {
+      console.log(tab, event);
     },
     handleCommand(command) {
       // this.dialogTableVisible = true;

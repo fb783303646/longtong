@@ -12,6 +12,7 @@ import settings from '@/components/views/settings'
 import charts from '@/components/views/charts'
 import list from '@/components/views/list'
 import userManagement from '@/components/views/userManagement'
+import userDetail from '@/components/views/userDetail'
 import detail from '@/components/views/detail'
 
 Vue.use(Router)
@@ -62,7 +63,8 @@ export default new Router({
       component: home,
       iconCls: 'el-icon-message',
       children: [
-        { path: '/userManagement', component: userManagement, name: '用户列表' }
+        { path: '/userManagement', component: userManagement, name: '用户列表' },
+        { path: '/userDetail', component: userDetail, name: '用户详情' }
       ]
     },
     {
