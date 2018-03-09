@@ -10,6 +10,7 @@ import addproducts from '@/components/views/addproducts'
 import orderlist from '@/components/views/orderlist'
 import settings from '@/components/views/settings'
 import charts from '@/components/views/charts'
+import actionLog from '@/components/views/actionLog'
 import list from '@/components/views/list'
 import userManagement from '@/components/views/userManagement'
 import userDetail from '@/components/views/userDetail'
@@ -82,7 +83,8 @@ export default new Router({
       component: home,
       iconCls: 'el-icon-message',
       children: [
-        { path: '/charts', component: charts, name: '统计报表' }
+        { path: '/charts', component: charts, name: '统计报表' },
+        { path: '/log', component: actionLog, name: '操作日志' }
       ]
     },
     {

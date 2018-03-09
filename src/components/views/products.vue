@@ -111,7 +111,7 @@
 
 <script>
 import http from '../../api/http'
-import apiurl from '../../api/apiurl'
+import apiUrl from '../../api/apiurl'
 export default {
   data() {
     return {
@@ -135,7 +135,7 @@ export default {
   },
   methods: {
     getReginData () {
-      http.get(apiurl.regionUrl).then((res)=>{
+      http.get(apiUrl.regionUrl).then((res)=>{
       if(res.code == 0){
           this.regionList = res.data.records
         }else{
@@ -150,7 +150,7 @@ export default {
       }
       let data = res || {};
       let option = Object.assign(data,params);
-      http.get(apiurl.productUrl, option).then((res)=>{
+      http.get(apiUrl.productUrl, option).then((res)=>{
         this.loading = true;
         if(res.code == 0){
           this.loading = false;
