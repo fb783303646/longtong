@@ -3,17 +3,13 @@
     <div class="box-tab">
       <el-row class="tab-header">
         <el-col :span="10" class="tetle-hd">
-
          <el-dropdown >
-            <el-button size="mini">
-              更多菜单<i class="el-icon-arrow-down el-icon--right"></i>
-            </el-button>
+            <el-button size="mini">更多菜单<i class="el-icon-arrow-down el-icon--right"></i></el-button>
             <el-dropdown-menu size="mini" slot="dropdown" >
               <el-dropdown-item  >上架</el-dropdown-item>
               <el-dropdown-item>删除</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-        
         </el-col>
         <el-col :span="14" style="text-align:right;" >
           <el-button  size="small" type="primary">商品导入</el-button>
@@ -23,84 +19,51 @@
       </el-row>
       <el-table ref="multipleTable" border :data="tableData" tooltip-effect="dark" style="width: 100%">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column
-          label="商品编号"
-          width="120">
-          <template slot-scope="scope">{{ scope.row.date }}</template>
-        </el-table-column>
-        <el-table-column
-          prop="name"
-          label="商品名称"
-          width="120">
-        </el-table-column>
-        <el-table-column
-          label="商品定价"
-          show-overflow-tooltip>
+        <el-table-column prop="date" label="商品编号" width="120"></el-table-column>
+        <el-table-column prop="name" label="商品名称" width="120"></el-table-column>
+        <el-table-column label="商品定价" width="120">
           <template slot-scope="scope">
             <el-input size="mini" v-model="scope.row.inventory" placeholder="请输入内容"></el-input>
           </template>
         </el-table-column>
-          <el-table-column
-          prop="areas"
-          label="供货价格"
-          show-overflow-tooltip>
+        <el-table-column prop="areas" label="供货价格" width="120">
           <template slot-scope="scope">
             <el-input size="mini" v-model="scope.row.inventory" placeholder="请输入内容"></el-input>
           </template>
         </el-table-column>
-          <el-table-column
-          prop="inventory"
-          label="采购价"
-          show-overflow-tooltip>
+        <el-table-column prop="inventory" label="采购价" width="120" >
           <template slot-scope="scope">
             <el-input size="mini" v-model="scope.row.inventory" placeholder="请输入内容"></el-input>
           </template>
         </el-table-column>
-          <el-table-column
-          prop="sales"
-          label="商品数量"
-          show-overflow-tooltip>
+        <el-table-column prop="sales" label="商品数量" width="100" >
           <template slot-scope="scope">
             <el-input size="mini" v-model="scope.row.inventory" placeholder="请输入内容"></el-input>
           </template>
         </el-table-column>
-        <el-table-column
-          prop="address"
-          label="供货地区"
-          show-overflow-tooltip width="360">
+        <el-table-column prop="address" label="供货地区" show-overflow-tooltip >
           <template slot-scope="scope">
-
             <el-checkbox-group v-model="scope.row.areasType">
               <el-checkbox label="东北" name="type"></el-checkbox>
               <el-checkbox label="华南" name="type"></el-checkbox>
               <el-checkbox label="西北" name="type"></el-checkbox>
               <el-checkbox label="华东" name="type"></el-checkbox>
             </el-checkbox-group> 
-
           </template>
         </el-table-column>
-        <el-table-column
-          prop="address"
-          label="库存状态"
-          show-overflow-tooltip  >
+        <el-table-column prop="address" label="库存状态" width="160"  show-overflow-tooltip  >
           <template slot-scope="scope">
             <el-select size="mini" v-model="value" placeholder="请选择">
               <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
             </el-select>
           </template>
         </el-table-column>
-         <el-table-column
-          prop="address"
-          label="排序"
-          show-overflow-tooltip width="100" >
+        <el-table-column prop="address" label="排序" show-overflow-tooltip width="100" >
           <template slot-scope="scope">
             <el-input size="mini" v-model="scope.row.inventory" placeholder="请输入内容"></el-input>
           </template>
         </el-table-column>
-        <el-table-column
-          prop="address"
-          label="操作"
-          show-overflow-tooltip width="60" >
+        <el-table-column prop="address" label="操作" show-overflow-tooltip width="60" >
           <template slot-scope="scope">
             <a class="icon-box" title="删除"><i class="el-icon-delete"></i></a>
           </template>
@@ -108,16 +71,7 @@
       </el-table>
       <el-row class="page-box">
         <el-col :span="24" class="page-nation" >
-          <el-pagination
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="currentPage"
-            :page-sizes="[10, 20, 30, 40]"
-            :page-size="100"
-            background
-            layout="total, sizes, prev, pager, next, jumper"
-            :total=total>
-          </el-pagination>
+          <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="100" background layout="total, sizes, prev, pager, next, jumper" :total=total></el-pagination>
         </el-col>
       </el-row>
     </div>

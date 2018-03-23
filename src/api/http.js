@@ -27,8 +27,9 @@ function checkStatus(response) {
   }
   // 异常状态下，把错误信息返回去
   return {
+    code:-404,
     status: -404,
-    msg: '网络异常'
+    message: '网络错误!'
   }
 }
 
@@ -36,14 +37,14 @@ function checkCode(res) {
   // 如果code异常(这里已经包括网络错误，服务器错误，后端抛出的错误)，可以弹出一个错误提示，告诉用户
   if (res.status === -404) {
     Message({
-      message: res.msg,
-      type: 'success'
+      message: '网络异常!',
+      type: 'warning'
     });
   }
-  if (res.code !== "0") {
+  if (res.code !== "0" && res.code) {
     Message({
-      message: res.messaage,
-      type: 'success'
+      message: res.message,
+      type: 'warning'
     });
   }
   return res
@@ -63,12 +64,10 @@ export default {
       }
     }).then(
       (response) => {
-        console.log(response);
         return checkStatus(response)
       }
     ).then(
       (res) => {
-        console.log(res);
         return checkCode(res)
       }
     )

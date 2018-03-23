@@ -20,7 +20,7 @@
 
 <script>
 import http from '../api/http'
-import apiurl from '../api/apiurl'
+import api from '../api/api'
 export default {
 
   data () {

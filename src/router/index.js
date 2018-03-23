@@ -11,10 +11,12 @@ import orderlist from '@/components/views/orderlist'
 import settings from '@/components/views/settings'
 import charts from '@/components/views/charts'
 import actionLog from '@/components/views/actionLog'
-import list from '@/components/views/list'
 import userManagement from '@/components/views/userManagement'
 import userDetail from '@/components/views/userDetail'
+import distributionorders from '@/components/views/distributionorders'
+import serviceorders from '@/components/views/serviceorders'
 import detail from '@/components/views/detail'
+import list from '@/components/views/list'
 
 Vue.use(Router)
 
@@ -30,20 +32,21 @@ export default new Router({
     {
       path: '/',
       redirect: '/index',
-      name: '首页',
+      name: '导航',
       component: home,
       iconCls: 'el-icon-message', //图标样式class
+      leaf: true,//只有一个节点
       children: [
-        { path: '/index', component: index, name: '首页s' },
-        { path: '/list', component: list, name: 'list' },
-        { path: '/detail', component: detail, name: 'detail', hidden: false}
+        { path: '/index', component: index, name: '首页' },
+        { path: '/list', component: list, name: 'list', hidden: true },
+        { path: '/detail', component: detail, name: 'detail', hidden: true}
       ]
     },
     {
       path: '/',
       name: '商品管理',
       component: home,
-      iconCls: 'el-icon-message', 
+      iconCls: 'el-icon-goods', 
       children: [
         { path: '/products', component: products, name: '商品列表' },
         { path: '/addProducts', component: addproducts, name: '添加商品'}
@@ -53,26 +56,31 @@ export default new Router({
       path: '/',
       name: '订单管理',
       component: home,
-      iconCls: 'el-icon-message',
+      iconCls: 'el-icon-tickets',
+      leaf: false,//只有一个节点
       children: [
-        { path: '/orderlist', component: orderlist, name: '订单列表' }
+        { path: '/orderlist', component: orderlist, name: '订单列表' },
+        { path: '/orderlist/distributionorders', component: distributionorders, name: '分销订单' },
+        { path: '/orderlist/serviceorders', component: serviceorders, name: '订单服务' },
       ]
     },
     {
       path: '/',
       name: '用户管理',
       component: home,
-      iconCls: 'el-icon-message',
+      iconCls: 'el-icon-location',
+      leaf: true,//只有一个节点
       children: [
         { path: '/userManagement', component: userManagement, name: '用户列表' },
-        { path: '/userDetail', component: userDetail, name: '用户详情' }
+        { path: '/userDetail', component: userDetail, name: '用户详情', hidden: true }
       ]
     },
     {
       path: '/',
       name: '规则设置',
       component: home,
-      iconCls: 'el-icon-message',
+      iconCls: 'el-icon-setting',
+      leaf: true,//只有一个节点
       children: [
         { path: '/settings', component: settings, name: '分销规则设置' }
       ]
@@ -81,7 +89,7 @@ export default new Router({
       path: '/',
       name: '统计',
       component: home,
-      iconCls: 'el-icon-message',
+      iconCls: 'el-icon-picture-outline',
       children: [
         { path: '/charts', component: charts, name: '统计报表' },
         { path: '/log', component: actionLog, name: '操作日志' }

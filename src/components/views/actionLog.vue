@@ -64,7 +64,7 @@
 
 <script>
 import http from '../../api/http'
-import apiUrl from '../../api/apiurl'
+import api from '../../api/api'
 export default {
   data() {
     return {
@@ -119,11 +119,11 @@ export default {
   },
   methods: {
     getReginData () {
-      http.get(apiUrl.regionUrl).then((res)=>{
+      http.get(api.regionUrl).then((res)=>{
       if(res.code == 0){
           this.regionList = res.data.records
         }else{
-          this.$message.error(res.messaage);
+          this.$message.error(res.message);
         }
       });
     },
@@ -134,14 +134,14 @@ export default {
       }
       let data = res || {};
       let option = Object.assign(data,params);
-      http.get(apiUrl.productUrl, option).then((res)=>{
+      http.get(api.productUrl, option).then((res)=>{
         this.loading = true;
         if(res.code == 0){
           this.loading = false;
           this.total = res.data.paging.total;
           this.tableData = res.data.records
         }else{
-          this.$message.error(res.messaage);
+          this.$message.error(res.message);
         }
       });
     },

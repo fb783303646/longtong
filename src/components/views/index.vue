@@ -7,7 +7,7 @@
             <el-col :span="8" class="big-icon icon-color1"><i class="el-icon-tickets"></i></el-col>
             <el-col  :span="16">
               <p>今日订单总数</p>
-              <p>2000</p>  
+              <p class="font20">{{orderData.todayCount}}</p>  
             </el-col>
           </el-row>
         </div>
@@ -15,10 +15,10 @@
       <el-col :span="6">
         <div class="border-purple bg-color2">
           <el-row  >
-            <el-col :span="8" class="big-icon icon-color2"><i class="el-icon-sold-out"></i></el-col>
+            <el-col :span="8" class="big-icon icon-color2"><i class="fontFamily londa-qian1"></i></el-col>
             <el-col  :span="16">
               <p>今日销售总额</p>
-              <p>2000</p>  
+              <p class="font20">¥{{orderData.todaySaleAoumt}}</p>  
             </el-col>
           </el-row>
         </div>
@@ -26,10 +26,10 @@
       <el-col :span="6">
         <div class="border-purple bg-color3">
           <el-row  >
-            <el-col :span="8" class="big-icon icon-color3"><i class="el-icon-phone"></i></el-col>
+            <el-col :span="8" class="big-icon icon-color3"><i class="fontFamily londa-qushi"></i></el-col>
             <el-col  :span="16">
               <p>今日销售总额</p>
-              <p>2000</p>  
+              <p class="font20">¥{{orderData.last7DaySaleAoumt}}</p>  
             </el-col>
           </el-row>
         </div>
@@ -37,10 +37,10 @@
       <el-col :span="6">
         <div class="border-purple bg-color4">
           <el-row >
-            <el-col :span="8" class="big-icon icon-color4"><i class="fontFamily londa-xinxinicon"></i></el-col>
+            <el-col :span="8" class="big-icon icon-color4"><i class="fontFamily londa-qian"></i></el-col>
             <el-col  :span="16">
               <p>今日销售总额</p>
-              <p>2000</p>  
+              <p class="font20">¥{{orderData.total}}</p>  
             </el-col>
           </el-row>
         </div>
@@ -75,19 +75,19 @@
           </div>
           <el-row >
             <el-col  :span="6">
-              <p>2000</p>
+              <p class="redbig">{{productData.pullCount}}</p>
               <p>已下架</p>
             </el-col>
             <el-col  :span="6">
-               <p>2000</p>
+              <p class="redbig">{{productData.salingCount}}</p>
               <p>已上架</p>
             </el-col>
             <el-col  :span="6">
-               <p>2000</p>
+              <p class="redbig">{{productData.stockCount}}</p>
               <p>货源不足</p>
             </el-col>
             <el-col  :span="6">
-               <p>2000</p>
+              <p class="redbig">{{productData.total}}</p>
               <p>全部商品</p>
             </el-col>
           </el-row>
@@ -100,20 +100,20 @@
           </div>
           <el-row >
             <el-col  :span="6">
-               <p>2000</p>
-              <p>今日销售总额(2000)</p>
+              <p class="redbig">{{memberData.todayCount}}</p>
+              <p>今日新增</p>
             </el-col>
             <el-col  :span="6">
-               <p>2000</p>
-              <p>今日销售总额(2000)</p>
+              <p class="redbig">{{memberData.yesterdayCount}}</p>
+              <p>昨日新增</p>
             </el-col>
             <el-col  :span="6">
-               <p>2000</p>
-              <p>今日销售总额(2000)</p>
+              <p class="redbig">{{memberData.monthCount}}</p>
+              <p>本月新增</p>
             </el-col>
             <el-col  :span="6">
-               <p>2000</p>
-              <p>今日销售总额(2000)</p>
+              <p class="redbig">{{memberData.total}}</p>
+              <p>会员总数</p>
             </el-col>
           </el-row>
         </el-card>
@@ -126,46 +126,93 @@
       </div>
       <el-row class="operate-init">
         <el-col  :span="3">
-          <div class="operate-info">
-            <i class="el-icon-circle-plus-outline"></i>
-            <p>添加商品</p>
+            <div class="operate-info" >
+               <router-link to="/addProducts">
+                <i class="el-icon-circle-plus-outline"></i>
+                <p>添加商品</p>
+               </router-link>
+            </div>
+        </el-col>
+        <el-col  :span="3">
+         <div class="operate-info" >
+            <router-link to="/orderlist">
+              <i class="el-icon-tickets"></i>
+              <p>订单列表</p>
+            </router-link>
           </div>
         </el-col>
         <el-col  :span="3">
-         <div class="operate-info">
-            <i class="el-icon-tickets"></i>
-            <p>订单列表</p>
+          <div class="operate-info"  >
+            <router-link to="/userManagement">
+              <i class="el-icon-plus"></i>
+              <p>添加用户</p>
+            </router-link>
           </div>
         </el-col>
-        <el-col  :span="3">
-          <div class="operate-info">
-            <i class="el-icon-plus"></i>
-            <p>添加用户</p>
-          </div>
-        </el-col>
-       
       </el-row>
     </el-card>
   </div>
 </template>
 
 <script>
-import { requestLogin } from '../../api/api';
+import http from '../../api/http'
+import api from '../../api/api'
+
 export default {
-  name: 'list',
   data () {
     return {
-      msg: 'index',
-      data:'数据'
+      orderData:{
+        todayCount:0,
+        todaySaleAoumt:0,
+        last7DaySaleAoumt:0,
+        total:0
+      },
+      memberData:{
+        todayCount:0,
+        yesterdayCount:0,
+        monthCount:0,
+        total:0
+      },
+      productData:{
+        pullCount:0,
+        salingCount:0,
+        stockCount:0,
+        total:0
+      }
     }
   },
+  created () {
+    this.getOrderData();
+    this.getMemberData();
+    this.getProductData();
+  },
   methods:{
-    add(){
-      let loginParams = ''
-      requestLogin(loginParams).then(data => {
-        console.log(data);
-        this.data = data;
-      });
+    getOrderData () {
+      http.get(api.get_order_statistics).then((res) => {
+        if(res.code=='0') { 
+          this.orderData = res.data;
+        }else {
+          this.$message.error(res.message);
+        }
+      })
+    },
+    getMemberData () {
+      http.get(api.get_member_statistics).then((res) => {
+         if(res.code=='0') { 
+          this.memberData = res.data;
+        }else {
+          this.$message.error(res.message);
+        }
+      })
+    },
+    getProductData () {
+      http.get(api.get_product_statistics).then((res) => {
+         if(res.code=='0') { 
+          this.productData = res.data;
+        }else {
+          this.$message.error(res.message);
+        }
+      })
     }
   }
 }
@@ -179,7 +226,7 @@ export default {
       color:#fff;
       .big-icon{
         font-size:60px;
-        line-height:90px;
+        line-height:98px;
       }
     }
     .bg-color1{
@@ -210,15 +257,31 @@ export default {
 
   .box-card{
     margin-top:20px;
+    p{
+      text-align:center;
+    }
+    .redbig{
+      color:#Fa3e54;
+      font-size:26px;
+    }
   }
   .operate-init{
     .operate-info{
       text-align:center;
       cursor: pointer;
+      a{
+        color:#333;
+        text-decoration: none;
+      }
       i{
         font-size:60px;
       }
     }
+  }
+  .font20{
+    font-size:20px;
+    margin-bottom:0;
+    margin-top:0px;
   }
 
 </style>

@@ -6,7 +6,7 @@
 			</el-col>
 			<el-col :span="10">
 				<div class="tools" @click.prevent="collapse">
-					<i class="el-icon-tickets"></i>
+					<i class="el-icon-menu"></i>
 				</div>
 			</el-col>
 			<el-col :span="4" class="userinfo">
@@ -29,12 +29,13 @@
 							<template slot="title"><i :class="item.iconCls"></i><span>{{item.name}}</span></template>
 							<el-menu-item v-for="child in item.children" :index="child.path" :key="child.path" v-if="!child.hidden">{{child.name}}</el-menu-item>
 						</el-submenu>
-						<el-menu-item v-if="item.leaf&&item.children.length>0" :index="item.children[0].path"><i :class="item.iconCls"></i>{{item.children[0].name}}</el-menu-item>
+						<el-menu-item v-if="item.leaf&&item.children.length>0" :index="item.children[0].path"><i :class="item.iconCls"></i><span>{{item.children[0].name}}</span></el-menu-item>
 					</template>
 				</el-menu>
 			</aside>
 			<section class="content-container">
 				<div class="grid-content bg-purple-light">
+					<!-- 当前位置 -->
 					<!-- <el-col :span="24" class="breadcrumb-container">
 						<strong class="title">{{$route.name}}</strong>
 						<el-breadcrumb separator="/" class="breadcrumb-inner">
@@ -74,6 +75,7 @@
 				}
 			}
 		},
+		created () {},
 		methods: {
 
 			handleopen() {
@@ -118,6 +120,7 @@
 </script>
 
 <style scoped lang="scss" >
+@import '../assets/icon/iconfont.css';
 .container {
 		position: absolute;
 		top: 0px;

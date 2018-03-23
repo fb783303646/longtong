@@ -47,16 +47,12 @@
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column label="商品编号" prop="sn"  width="120"></el-table-column>
         <el-table-column prop="name" label="商品名称" width="120"></el-table-column>
-        <el-table-column label="价格" show-overflow-tooltip>
-          <template slot-scope="scope">
-            <p class="no-magtop">采购价:￥{{ scope.row.purchasingPrice}}</p>
-            <p class="no-magtop">内部定价:￥{{ scope.row.internalPrice}}</p>
-            <p class="no-magtop">分销价:￥{{ scope.row.salePrice}}</p>
-          </template>
-        </el-table-column>
+        <el-table-column prop="purchasingPrice" label="采购价(元)" width="120"></el-table-column>
+        <el-table-column prop="internalPrice" label="内部定价(元)" width="120"></el-table-column>
+        <el-table-column prop="salePrice" label="分销价(元)" width="120"></el-table-column>
         <el-table-column prop="saleRegions" label="供货地区" show-overflow-tooltip>
           <template slot-scope="scope">
-            <p class="no-magtop" v-for="item in scope.row.saleRegions">{{ item }}</p>
+            <span class="no-magtop" v-for="item in scope.row.saleRegions">{{ item }}、</span>
           </template>
         </el-table-column>
         <el-table-column prop="inventory" label="库存" show-overflow-tooltip>
@@ -111,7 +107,7 @@
 
 <script>
 import http from '../../api/http'
-import apiUrl from '../../api/apiurl'
+import api from '../../api/api'
 export default {
   data() {
     return {
@@ -135,11 +131,11 @@ export default {
   },
   methods: {
     getReginData () {
-      http.get(apiUrl.regionUrl).then((res)=>{
+      http.get(api.regionUrl).then((res)=>{
       if(res.code == 0){
           this.regionList = res.data.records
         }else{
-          this.$message.error(res.messaage);
+          this.$message.error(res.message);
         }
       });
     },
@@ -150,14 +146,14 @@ export default {
       }
       let data = res || {};
       let option = Object.assign(data,params);
-      http.get(apiUrl.productUrl, option).then((res)=>{
+      http.get(api.productUrl, option).then((res)=>{
         this.loading = true;
         if(res.code == 0){
           this.loading = false;
           this.total = res.data.paging.total;
           this.tableData = res.data.records
         }else{
-          this.$message.error(res.messaage);
+          this.$message.error(res.message);
         }
       });
     },
@@ -170,7 +166,6 @@ export default {
       this.getDataList(params);
     },
     handleSizeChange(val) {
-      console.log('dd');
       this.pageSize = val;
       this.currentPage = 1;
       this.getDataList();
@@ -218,8 +213,7 @@ export default {
     }
   }
   .no-magtop {
-    margin-top: 0;
-    margin-bottom: 0;
+    padding:0 5px;
   }
   .addClass {
     .el-tabs__header {
