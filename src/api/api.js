@@ -11,9 +11,11 @@ export default {
     get_product_statistics: '/product-statistics',        // 首页商品总览   
     
     // 商品列表api
-    productUrl: '/product/list',                          // 产品列表
+    get_productList: '/product/list',                     // 产品列表
     regionUrl: '/region/list',                            // 获取所有地区信息
-    get_industry:'/industry/list',                        // 获取行业信息
+    // get_industry:'/industry/list',                        // 获取行业信息
+    get_stockStatus:'/product/stock-status',              // 获取库存状态
+    get_list_kindom:'/product/list-kindom',               // 获取金正订单
 
     // 用户api
     get_member_list:'/member/list',                        // 获取用户列表信息

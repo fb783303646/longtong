@@ -14,6 +14,7 @@ import actionLog from '@/components/views/actionLog'
 import userManagement from '@/components/views/userManagement'
 import userDetail from '@/components/views/userDetail'
 import distributionorders from '@/components/views/distributionorders'
+import orderdetail from '@/components/views/orderdetail'
 import serviceorders from '@/components/views/serviceorders'
 import detail from '@/components/views/detail'
 import list from '@/components/views/list'
@@ -60,8 +61,9 @@ export default new Router({
       leaf: false,//只有一个节点
       children: [
         { path: '/orderlist', component: orderlist, name: '订单列表' },
-        { path: '/orderlist/distributionorders', component: distributionorders, name: '分销订单' },
-        { path: '/orderlist/serviceorders', component: serviceorders, name: '订单服务' },
+        { path: '/orderlist/distributionorders', component: distributionorders, name: '分销订单',hidden: true },
+        { path: '/orderlist/orderdetail', component: orderdetail, name: '订单详情', hidden: false },
+        { path: '/orderlist/serviceorders', component: serviceorders, name: '订单服务',hidden: true },
       ]
     },
     {

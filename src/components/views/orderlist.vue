@@ -63,7 +63,7 @@
 
         <el-table-column prop="address" label="操作" width="120">
           <template slot-scope="scope">
-            <a class="icon-box" title="查看订单"><i class="el-icon-edit"></i></a>
+            <a class="icon-box" title="查看订单"><i class="el-icon-view"></i></a>
             <a class="icon-box" title="更改状态" @click="changeStutas(scope.row)" ><i class="el-icon-setting"></i></a>
           </template>
         </el-table-column>

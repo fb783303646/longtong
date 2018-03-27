@@ -1,17 +1,17 @@
 <template>
   <div class="page-products">
 
-    <el-tabs v-model="activeName2" class="addClass" type="card" @tab-click="handleClick">
+    <!-- <el-tabs v-model="activeName2" class="addClass" type="card" @tab-click="handleClick">
       <el-tab-pane label="全部商品(10000)" name="first"></el-tab-pane>
       <el-tab-pane label="已上架(1000)" name="second"></el-tab-pane>
       <el-tab-pane label="未上架(1000)" name="third"></el-tab-pane>
       <el-tab-pane label="待审核(1000)" name="fourth"></el-tab-pane>
       <el-tab-pane label="未通过(1000)" name="fourthd"></el-tab-pane>
-    </el-tabs>
+    </el-tabs> -->
 
     <div class="box-tab">
       <el-row class="tab-header">
-        <el-col :span="3" class="tetle-hd">
+        <!-- <el-col :span="3" class="tetle-hd">
           <el-dropdown @command="handleCommand">
             <el-button size="mini">批量操作
               <i class="el-icon-arrow-down el-icon--right"></i>
@@ -22,8 +22,8 @@
             </el-dropdown-menu>
           </el-dropdown>
 
-        </el-col>
-        <el-col :span="15"> 
+        </el-col> -->
+        <el-col :span="18"> 
           <el-form :inline="true"  class="demo-form-inline">
             <el-form-item>
               <el-input v-model="searchName" size="mini" placeholder="商品名称/品牌"></el-input>
@@ -55,21 +55,16 @@
             <span class="no-magtop" v-for="item in scope.row.saleRegions">{{ item }}、</span>
           </template>
         </el-table-column>
-        <el-table-column prop="inventory" label="库存" show-overflow-tooltip>
-          <template slot-scope="scope">{{ scope.row.inventory }}吨</template>
+        <el-table-column prop="productNum " label="库存" show-overflow-tooltip>
+          <template slot-scope="scope">{{ scope.row.productNum}}吨</template>
         </el-table-column>
-        <el-table-column prop="productNum" label="销量" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="address" label="审核状态" show-overflow-tooltip>
-          <template slot-scope="scope">
-            <span v-if="scope.row.isApproved">已审核</span>
-            <span v-if="!scope.row.isApproved">未审核</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="address" label="是否上架" show-overflow-tooltip width="100">
+        <el-table-column prop="saleNum" label="销量" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="status" label="审核状态" show-overflow-tooltip></el-table-column>
+        <!-- <el-table-column prop="address" label="是否上架" show-overflow-tooltip width="100">
           <template slot-scope="scope">
             <el-switch v-model="scope.row.isApproved" active-color="#13ce66" inactive-color="#909399"></el-switch>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column prop="address" label="操作" show-overflow-tooltip>
           <template slot-scope="scope">
             <a class="icon-box" title="编辑">
@@ -89,7 +84,7 @@
       </el-table>
       <el-row class="page-box">
         <el-col :span="24" class="page-nation">
-          <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[1, 2, 3, 4]" :page-size="pageSize" background layout="total, sizes, prev, pager, next, jumper" :total=total>
+          <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="pageSize" background layout="total, sizes, prev, pager, next, jumper" :total=total>
           </el-pagination>
         </el-col>
       </el-row>
@@ -117,12 +112,11 @@ export default {
       region:'',
       regionList:[],
       currentPage: 1,
-      pageSize:1,
+      pageSize:10,
       total: 40,
       dialogTableVisible: false,
       checked: false,
-      loading: false,
-      activeName2: 'first'
+      loading: false
     }
   },
   created () { 
@@ -146,7 +140,7 @@ export default {
       }
       let data = res || {};
       let option = Object.assign(data,params);
-      http.get(api.productUrl, option).then((res)=>{
+      http.get(api.get_productList, option).then((res)=>{
         this.loading = true;
         if(res.code == 0){
           this.loading = false;
@@ -173,9 +167,6 @@ export default {
     handleCurrentChange(val) {
       this.currentPage = val;
       this.getDataList();
-    },
-    handleClick(tab, event) {
-      console.log(tab, event);
     },
     handleCommand(command) {
       // this.dialogTableVisible = true;
